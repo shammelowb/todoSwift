@@ -36,7 +36,8 @@ protocol Cache {
     func load() -> [Todo]?
 }
 
-// `FileSystemCache`: This implementation should utilize the file system 
+
+// `FileSystemCache`: This implementation should utilize the file system
 // to persist and retrieve the list of todos. 
 // Utilize Swift's `FileManager` to handle file operations.
 final class JSONFileManagerCache: Cache {
@@ -82,9 +83,21 @@ final class JSONFileManagerCache: Cache {
 // This won't retain todos across different app launches, 
 // but serves as a quick in-session cache.
 
-//final class InMemoryCache: Cache {
+final class InMemoryCache: Cache {
+    var tempTodos: [Todo]
 
-//}
+    init(todos: [Todo]) {
+        tempTodos = [Todo]()
+    }
+
+    func save(todos: [Todo]) {
+        self.tempTodos = todos    
+    }
+
+    func load() -> [Todo]? {
+        return tempTodos
+    }
+}
 
 // The `TodosManager` class should have:
 // * A function `func listTodos()` to display all todos.
@@ -228,5 +241,3 @@ func main() {
 }
 
 main()
-
-
